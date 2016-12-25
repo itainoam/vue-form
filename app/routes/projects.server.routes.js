@@ -7,5 +7,5 @@ module.exports = function(app) {
   var projects = require('../controllers/projects.server.controller');
   
   // Mount the 'index' controller's 'render' method
-  app.post('/projects/create', projects.create);
+  app.post('/projects', projects.create);
 };

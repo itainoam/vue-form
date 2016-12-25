@@ -3,7 +3,8 @@
 
 // Create a new 'render' controller method
 exports.create = function(req, res, next) {
-  var errors = [];
+  var errors = [],
+    formattedErrors = {}
   req.assert('name', 'name is required').notEmpty()
   req.assert('description', 'description is required').notEmpty();
   
@@ -11,11 +12,18 @@ exports.create = function(req, res, next) {
      errors = result.array()
      if (errors.length) {
        console.log('errors sent: ', errors);
-       res.status(422).send(errors);
+       errors.forEach(function(error) {
+         formattedErrors[error.param] =  [];
+         formattedErrors[error.param].push(error.msg);
+       })
+       res.status(422).send(formattedErrors);
      }
      else {
-       res.send('Project Created!');
+       console.log('New project created!');
+       res.send({message:'Project Created!'});
      }
    });
    
 };
+
+
